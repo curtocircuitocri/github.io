@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curto Circuito</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/inter/3.19.3/inter.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lightning {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        h1 {
+            font-size: 5rem;
+            margin-top: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            font-weight: 300;
+            animation: flicker 3s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+                opacity: 1;
+                text-shadow: 
+                    0 0 15px #fff,
+                    0 0 30px #fff,
+                    0 0 40px #e60073,
+                    0 0 50px #e60073,
+                    0 0 60px #e60073;
+            }
+            20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+                opacity: 0.4;
+                text-shadow: none;
+            }
+        }
+
+        .social-buttons {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 4rem;
+            position: relative;
+            z-index: 1;
+            padding: 0 20px;
+        }
+
+        .button {
+            padding: 12px 20px;
+            border: 2px solid white;
+            background-color: transparent;
+            color: white;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: all 0.4s ease;
+            border-radius: 8px;
+            font-size: 0.8rem;
+        }
+
+        .button:hover {
+            background-color: white;
+            color: black;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .thunder-flash {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .lightning-bolt {
+            position: absolute;
+            background: linear-gradient(to bottom, transparent, white, transparent);
+            width: 4px;
+            height: 0%;
+            opacity: 0;
+            z-index: 0;
+        }
+
+        @keyframes lightningFlash {
+            0% { background-color: rgba(255, 255, 255, 0); }
+            10% { background-color: rgba(255, 255, 255, 0.3); }
+            11% { background-color: rgba(255, 255, 255, 0); }
+            14% { background-color: rgba(255, 255, 255, 0.3); }
+            15% { background-color: rgba(255, 255, 255, 0); }
+        }
+
+        @keyframes boltGrow {
+            0% { height: 0%; opacity: 0; }
+            20% { height: 100%; opacity: 1; }
+            30% { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        @media (max-width: 768px) {
+            .social-buttons {
+                flex-wrap: wrap;
+            }
+            
+            h1 {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="thunder-flash" id="thunderFlash"></div>
+    <div class="lightning" id="lightningContainer"></div>
+    <h1>Curto Circuito</h1>
+    <div class="social-buttons">
+        <a href="https://instagram.com" target="_blank" class="button">Instagram</a>
+        <a href="https://soundcloud.com" target="_blank" class="button">SoundCloud</a>
+        <a href="https://youtube.com" target="_blank" class="button">YouTube</a>
+        <a href="mailto:contato@curtocircuito.com" class="button">Contato</a>
+        <a href="https://shotgun.live" target="_blank" class="button">Shotgun</a>
+        <a href="#sobre" class="button">Sobre Nós</a>
+    </div>
+
+    <script>
+        function createThunderFlash() {
+            const flash = document.getElementById('thunderFlash');
+            flash.style.animation = 'lightningFlash 1s';
+            setTimeout(() => {
+                flash.style.animation = 'none';
+            }, 1000);
+        }
+
+        function createLightningBolt() {
+            const bolt = document.createElement('div');
+            bolt.className = 'lightning-bolt';
+            
+            bolt.style.left = Math.random() * 100 + '%';
+            
+            const angle = (Math.random() - 0.5) * 30;
+            bolt.style.transform = `rotate(${angle}deg)`;
+            
+            document.getElementById('lightningContainer').appendChild(bolt);
+            
+            bolt.style.animation = 'boltGrow 0.5s ease-out';
+            
+            createThunderFlash();
+            
+            setTimeout(() => {
+                bolt.remove();
+            }, 500);
+        }
+
+        function scheduleNextLightning() {
+            const delay = Math.random() * 1500 + 500;
+            setTimeout(() => {
+                createLightningBolt();
+                scheduleNextLightning();
+            }, delay);
+        }
+
+        scheduleNextLightning();
+        
+        for(let i = 0; i < 5; i++) {
+            setTimeout(() => {
+                createLightningBolt();
+            }, i * 150);
+        }
+    </script>
+</body>
+</html>
