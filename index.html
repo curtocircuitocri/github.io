@@ -6,10 +6,14 @@
     <title>Curto Circuito</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/inter/3.19.3/inter.css" rel="stylesheet">
     <style>
-        body {
+        * {
             margin: 0;
             padding: 0;
-            background-color: black;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
             color: white;
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
@@ -17,27 +21,36 @@
             flex-direction: column;
             align-items: center;
             position: relative;
-            overflow: hidden;
+            overflow-x: hidden;
+            padding: 20px;
         }
 
-        .lightning {
-            position: absolute;
+        .content-wrapper {
+            max-width: 1200px;
             width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3rem;
+            padding: 2rem 0;
+        }
+
+        .header {
+            position: relative;
+            width: 100%;
+            padding: 2rem 0;
+            text-align: center;
         }
 
         h1 {
             font-size: 5rem;
-            margin-top: 2rem;
             text-transform: uppercase;
-            letter-spacing: 6px;
-            text-align: center;
-            position: relative;
-            z-index: 1;
+            letter-spacing: 8px;
             font-weight: 300;
             animation: flicker 3s infinite;
+            margin: 0;
+            padding: 0;
         }
 
         @keyframes flicker {
@@ -58,109 +71,173 @@
 
         .social-buttons {
             display: flex;
-            flex-wrap: nowrap;
+            flex-wrap: wrap;
             justify-content: center;
             gap: 15px;
-            margin-top: 4rem;
-            position: relative;
-            z-index: 1;
+            width: 100%;
+            max-width: 900px;
             padding: 0 20px;
         }
 
         .button {
-            padding: 12px 20px;
-            border: 2px solid white;
-            background-color: transparent;
+            padding: 12px 24px;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            background-color: rgba(0, 0, 0, 0.5);
             color: white;
             text-decoration: none;
             text-transform: uppercase;
             font-weight: 500;
             letter-spacing: 1px;
-            transition: all 0.4s ease;
+            transition: all 0.3s ease;
             border-radius: 8px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                120deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .button:hover::before {
+            left: 100%;
         }
 
         .button:hover {
-            background-color: white;
+            background-color: rgba(255, 255, 255, 0.9);
             color: black;
-            box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
         }
 
-        .thunder-flash {
-            position: absolute;
+        .spotify-container {
+            width: 100%;
+            max-width: 900px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(230, 0, 115, 0.2);
+            transition: transform 0.3s ease;
+            background: rgba(18, 18, 18, 0.8);
+            padding: 10px;
+        }
+
+        .spotify-container:hover {
+            transform: translateY(-5px);
+        }
+
+        .spotify-container iframe {
+            border: none;
+            width: 100%;
+            border-radius: 12px;
+        }
+
+        .lightning-container {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(255, 255, 255, 0);
             pointer-events: none;
             z-index: 0;
         }
 
         .lightning-bolt {
             position: absolute;
-            background: linear-gradient(to bottom, transparent, white, transparent);
+            background: linear-gradient(to bottom, transparent, #fff, transparent);
             width: 4px;
             height: 0%;
             opacity: 0;
-            z-index: 0;
-        }
-
-        @keyframes lightningFlash {
-            0% { background-color: rgba(255, 255, 255, 0); }
-            10% { background-color: rgba(255, 255, 255, 0.3); }
-            11% { background-color: rgba(255, 255, 255, 0); }
-            14% { background-color: rgba(255, 255, 255, 0.3); }
-            15% { background-color: rgba(255, 255, 255, 0); }
-        }
-
-        @keyframes boltGrow {
-            0% { height: 0%; opacity: 0; }
-            20% { height: 100%; opacity: 1; }
-            30% { opacity: 0; }
-            100% { opacity: 0; }
         }
 
         @media (max-width: 768px) {
-            .social-buttons {
-                flex-wrap: wrap;
-            }
-            
             h1 {
                 font-size: 3rem;
+                letter-spacing: 4px;
             }
+
+            .button {
+                padding: 10px 20px;
+                font-size: 0.8rem;
+            }
+
+            .content-wrapper {
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .social-buttons {
+                gap: 10px;
+            }
+        }
+
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(0,0,0,0.5), #000);
+            pointer-events: none;
+            z-index: -1;
         }
     </style>
 </head>
 <body>
-    <div class="thunder-flash" id="thunderFlash"></div>
-    <div class="lightning" id="lightningContainer"></div>
-    <h1>Curto Circuito</h1>
-    <div class="social-buttons">
-        <a href="https://instagram.com" target="_blank" class="button">Instagram</a>
-        <a href="https://soundcloud.com" target="_blank" class="button">SoundCloud</a>
-        <a href="https://youtube.com" target="_blank" class="button">YouTube</a>
-        <a href="mailto:contato@curtocircuito.com" class="button">Contato</a>
-        <a href="https://shotgun.live" target="_blank" class="button">Shotgun</a>
-        <a href="#sobre" class="button">Sobre Nós</a>
+    <div class="background-overlay"></div>
+    <div class="lightning-container" id="lightningContainer"></div>
+    
+    <div class="content-wrapper">
+        <header class="header">
+            <h1>Curto Circuito</h1>
+        </header>
+
+        <div class="social-buttons">
+            <a href="http://instagram.com/curtocircuito.cri" target="_blank" class="button">Instagram</a>
+            <a href="http://soundcloud.com/curtocircuito.cri" target="_blank" class="button">SoundCloud</a>
+            <a href="http://youtube.com/curtocircuito.cri" target="_blank" class="button">YouTube</a>
+            <a href="mailto:curtocircuito.cri@proton.me" class="button">Contato</a>
+            <a href="http://shorgun.com/curtocircuito.cri" target="_blank" class="button">Shotgun</a>
+            <a href="https://open.spotify.com/user/31abiogejknk74ybllr6uzwbth3m?si=O83O_vqmSPGPPczbR9nkZg" target="_blank" class="button">Spotify</a>
+            <a href="#sobre" class="button">Sobre Nós</a>
+        </div>
+
+        <div class="spotify-container">
+            <iframe
+                src="https://open.spotify.com/embed/playlist/4hvfoHE0beRXDCiuaHpZxO?utm_source=generator&theme=0"
+                width="100%"
+                height="352"
+                allowfullscreen=""
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy">
+            </iframe>
+        </div>
     </div>
 
     <script>
-        function createThunderFlash() {
-            const flash = document.getElementById('thunderFlash');
-            flash.style.animation = 'lightningFlash 1s';
-            setTimeout(() => {
-                flash.style.animation = 'none';
-            }, 1000);
-        }
-
         function createLightningBolt() {
             const bolt = document.createElement('div');
             bolt.className = 'lightning-bolt';
             
-            bolt.style.left = Math.random() * 100 + '%';
+            const startX = Math.random() * 100;
+            bolt.style.left = startX + '%';
             
             const angle = (Math.random() - 0.5) * 30;
             bolt.style.transform = `rotate(${angle}deg)`;
@@ -169,27 +246,35 @@
             
             bolt.style.animation = 'boltGrow 0.5s ease-out';
             
-            createThunderFlash();
-            
             setTimeout(() => {
                 bolt.remove();
             }, 500);
         }
 
-        function scheduleNextLightning() {
-            const delay = Math.random() * 1500 + 500;
+        function createThunderEffect() {
+            const overlay = document.querySelector('.background-overlay');
+            overlay.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+            setTimeout(() => {
+                overlay.style.backgroundColor = 'transparent';
+            }, 50);
+        }
+
+        function scheduleLightning() {
+            const delay = Math.random() * 3000 + 2000;
             setTimeout(() => {
                 createLightningBolt();
-                scheduleNextLightning();
+                createThunderEffect();
+                scheduleLightning();
             }, delay);
         }
 
-        scheduleNextLightning();
-        
-        for(let i = 0; i < 5; i++) {
+        scheduleLightning();
+
+        for(let i = 0; i < 3; i++) {
             setTimeout(() => {
                 createLightningBolt();
-            }, i * 150);
+                createThunderEffect();
+            }, i * 200);
         }
     </script>
 </body>
