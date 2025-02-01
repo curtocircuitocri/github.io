@@ -6,64 +6,204 @@
     <title>Curto Circuito</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/inter/3.19.3/inter.css" rel="stylesheet">
     <style>
-        /* ... Estilos anteriores ... */
-        
-        .modal {
-            display: none;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;x
+            position: relative;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        .content-wrapper {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3rem;
+            padding: 2rem 0;
+        }
+
+        .header {
+            position: relative;
+            width: 100%;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 5rem;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            font-weight: 300;
+            animation: flicker 3s infinite;
+            margin: 0;
+            padding: 0;
+        }
+
+        @keyframes flicker {
+            0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+                opacity: 1;
+                text-shadow: 
+                    0 0 15px #fff,
+                    0 0 30px #fff,
+                    0 0 40px #e60073,
+                    0 0 50px #e60073,
+                    0 0 60px #e60073;
+            }
+            20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+                opacity: 0.4;
+                text-shadow: none;
+            }
+        }
+
+        .social-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+            max-width: 900px;
+            padding: 0 20px;
+        }
+
+        .button {
+            padding: 12px 24px;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                120deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .button:hover::before {
+            left: 100%;
+        }
+
+        .button:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+            color: black;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .spotify-container {
+            width: 100%;
+            max-width: 900px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(230, 0, 115, 0.2);
+            transition: transform 0.3s ease;
+            background: rgba(18, 18, 18, 0.8);
+            padding: 10px;
+        }
+
+        .spotify-container:hover {
+            transform: translateY(-5px);
+        }
+
+        .spotify-container iframe {
+            border: none;
+            width: 100%;
+            border-radius: 12px;
+        }
+
+        .lightning-container {
             position: fixed;
-            z-index: 1000;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
+            pointer-events: none;
+            z-index: 0;
         }
 
-        .modal-content {
-            position: relative;
-            background-color: rgba(18, 18, 18, 0.95);
-            margin: 15% auto;
-            padding: 30px;
-            width: 80%;
-            max-width: 700px;
-            border-radius: 15px;
-            box-shadow: 0 0 30px rgba(230, 0, 115, 0.2);
-            color: white;
-            line-height: 1.6;
-        }
-
-        .close-button {
+        .lightning-bolt {
             position: absolute;
-            right: 20px;
-            top: 15px;
-            font-size: 28px;
-            cursor: pointer;
-            color: white;
+            background: linear-gradient(to bottom, transparent, #fff, transparent);
+            width: 4px;
+            height: 0%;
+            opacity: 0;
         }
 
-        .close-button:hover {
-            color: #e60073;
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+                letter-spacing: 4px;
+            }
+
+            .button {
+                padding: 10px 20px;
+                font-size: 0.8rem;
+            }
+
+            .content-wrapper {
+                gap: 2rem;
+            }
         }
 
-        /* Mantendo todos os estilos anteriores... */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .social-buttons {
+                gap: 10px;
+            }
+        }
+
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(0,0,0,0.5), #000);
+            pointer-events: none;
+            z-index: -1;
+        }
     </style>
 </head>
 <body>
     <div class="background-overlay"></div>
     <div class="lightning-container" id="lightningContainer"></div>
     
-    <!-- Modal Sobre Nós -->
-    <div id="sobreModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" id="closeModal">&times;</span>
-            <h2 style="margin-bottom: 20px; color: #e60073;">Sobre Nós</h2>
-            <p>
-                <strong>A Curto Circuito nasceu da fusão de ideias de Rodrigo Fabre e Maryna, figuras conhecidas da noite alternativa criciumense. DJs desde 2010, eles passaram anos dividindo cabines, pistas e experiências, sempre conectados pela paixão pela música eletrônica. Depois de incontáveis noites conduzindo a energia das pistas, sentiram que era hora de transformar essa sintonia em um projeto próprio. Assim surgiu a Curto Circuito, uma festa que canaliza a intensidade da música em uma experiência única. Mais do que um evento, é um espaço onde a vibração sonora rompe barreiras, une pessoas e transforma cada batida em pura eletricidade.</strong>
-            </p>
-        </div>
-    </div>
-
     <div class="content-wrapper">
         <header class="header">
             <h1>Curto Circuito</h1>
@@ -76,13 +216,13 @@
             <a href="mailto:curtocircuito.cri@proton.me" class="button">Contato</a>
             <a href="https://shotgun.live/pt-br/venues/curto-circuito-cri" target="_blank" class="button">Shotgun</a>
             <a href="https://open.spotify.com/user/31abiogejknk74ybllr6uzwbth3m?si=O83O_vqmSPGPPczbR9nkZg" target="_blank" class="button">Spotify</a>
-            <a href="#" class="button" id="sobreButton">Sobre Nós</a>
+            <a href="#sobre" class="button">Sobre Nós</a>
             <a href="https://shotgun.live/pt-br/events/curto-c-ircuito" target="_blank" class="button">Próximo Evento</a>
         </div>
 
         <div class="spotify-container">
             <iframe
-                src="https://open.spotify.com/embed/playlist/4hvfoHE0beRXDCiuaHpZxO?utm_source=generator&theme=0&autoplay=1"
+                src="https://open.spotify.com/embed/playlist/4hvfoHE0beRXDCiuaHpZxO?utm_source=generator&theme=0"
                 width="100%"
                 height="352"
                 allowfullscreen=""
@@ -93,7 +233,6 @@
     </div>
 
     <script>
-        // Script do lightning anterior...
         function createLightningBolt() {
             const bolt = document.createElement('div');
             bolt.className = 'lightning-bolt';
@@ -137,25 +276,6 @@
                 createLightningBolt();
                 createThunderEffect();
             }, i * 200);
-        }
-
-        // Novo script para o modal
-        const modal = document.getElementById('sobreModal');
-        const sobreButton = document.getElementById('sobreButton');
-        const closeButton = document.getElementById('closeModal');
-
-        sobreButton.onclick = function() {
-            modal.style.display = 'block';
-        }
-
-        closeButton.onclick = function() {
-            modal.style.display = 'none';
-        }
-
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
         }
     </script>
 </body>
