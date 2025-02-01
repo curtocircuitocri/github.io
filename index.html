@@ -19,10 +19,51 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;x
+            align-items: center;
             position: relative;
             overflow-x: hidden;
             padding: 20px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background-color: rgba(18, 18, 18, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 800px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 0 30px rgba(230, 0, 115, 0.2);
+            line-height: 1.6;
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
+        }
+
+        .modal-content p {
+            margin-bottom: 15px;
         }
 
         .content-wrapper {
@@ -94,6 +135,7 @@
             backdrop-filter: blur(5px);
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
 
         .button::before {
@@ -162,6 +204,21 @@
             opacity: 0;
         }
 
+        @keyframes boltGrow {
+            0% {
+                height: 0%;
+                opacity: 0;
+            }
+            50% {
+                height: 100%;
+                opacity: 0.8;
+            }
+            100% {
+                height: 100%;
+                opacity: 0;
+            }
+        }
+
         @media (max-width: 768px) {
             h1 {
                 font-size: 3rem;
@@ -216,7 +273,7 @@
             <a href="mailto:curtocircuito.cri@proton.me" class="button">Contato</a>
             <a href="https://shotgun.live/pt-br/venues/curto-circuito-cri" target="_blank" class="button">Shotgun</a>
             <a href="https://open.spotify.com/user/31abiogejknk74ybllr6uzwbth3m?si=O83O_vqmSPGPPczbR9nkZg" target="_blank" class="button">Spotify</a>
-            <a href="#sobre" class="button">Sobre Nós</a>
+            <button class="button" onclick="openModal()">Sobre Nós</button>
             <a href="https://shotgun.live/pt-br/events/curto-c-ircuito" target="_blank" class="button">Próximo Evento</a>
         </div>
 
@@ -229,6 +286,14 @@
                 allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                 loading="lazy">
             </iframe>
+        </div>
+    </div>
+
+    <div class="modal" id="aboutModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">×</button>
+            <p>A Curto Circuito nasceu da fusão de ideias de Rodrigo Fabre e Maryna, figuras conhecidas da noite alternativa criciumense. DJs desde 2010, eles passaram anos dividindo cabines, pistas e experiências, sempre conectados pela paixão pela música eletrônica.</p>
+            <p>Depois de incontáveis noites conduzindo a energia das pistas, sentiram que era hora de transformar essa sintonia em um projeto próprio. Assim surgiu a Curto Circuito, uma festa que canaliza a intensidade da música em uma experiência única. Mais do que um evento, é um espaço onde a vibração sonora rompe barreiras, une pessoas e transforma cada batida em pura eletricidade.</p>
         </div>
     </div>
 
@@ -269,6 +334,14 @@
             }, delay);
         }
 
+        function openModal() {
+            document.getElementById('aboutModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('aboutModal').style.display = 'none';
+        }
+
         scheduleLightning();
 
         for(let i = 0; i < 3; i++) {
@@ -276,6 +349,14 @@
                 createLightningBolt();
                 createThunderEffect();
             }, i * 200);
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('aboutModal');
+            if (event.target == modal) {
+                closeModal();
+            }
         }
     </script>
 </body>
