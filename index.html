@@ -197,23 +197,13 @@
             background: radial-gradient(circle at 50% 50%, rgba(0,0,0,0.5), #000);
             pointer-events: none;
             z-index: -1;
-       </style>
+        }
+    </style>
 </head>
 <body>
     <div class="background-overlay"></div>
     <div class="lightning-container" id="lightningContainer"></div>
     
-    <!-- Modal Sobre Nós -->
-    <div id="sobreModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" id="closeModal">&times;</span>
-            <h2 style="margin-bottom: 20px; color: #e60073;">Sobre Nós</h2>
-            <p>
-                <strong>A Curto Circuito nasceu da fusão de ideias de Rodrigo Fabre e Maryna, figuras conhecidas da noite alternativa criciumense. DJs desde 2010, eles passaram anos dividindo cabines, pistas e experiências, sempre conectados pela paixão pela música eletrônica. Depois de incontáveis noites conduzindo a energia das pistas, sentiram que era hora de transformar essa sintonia em um projeto próprio. Assim surgiu a Curto Circuito, uma festa que canaliza a intensidade da música em uma experiência única. Mais do que um evento, é um espaço onde a vibração sonora rompe barreiras, une pessoas e transforma cada batida em pura eletricidade.</strong>
-            </p>
-        </div>
-    </div>
-
     <div class="content-wrapper">
         <header class="header">
             <h1>Curto Circuito</h1>
@@ -226,18 +216,21 @@
             <a href="mailto:curtocircuito.cri@proton.me" class="button">Contato</a>
             <a href="https://shotgun.live/pt-br/venues/curto-circuito-cri" target="_blank" class="button">Shotgun</a>
             <a href="https://open.spotify.com/user/31abiogejknk74ybllr6uzwbth3m?si=O83O_vqmSPGPPczbR9nkZg" target="_blank" class="button">Spotify</a>
-            <a href="#" class="button" id="sobreButton">Sobre Nós</a>
+            <a href="#sobre" class="button">Sobre Nós</a>
             <a href="https://shotgun.live/pt-br/events/curto-c-ircuito" target="_blank" class="button">Próximo Evento</a>
         </div>
 
         <div class="spotify-container">
             <iframe
-                src="https://open.spotify.com/embed/playlist/4hvfoHE0beRXDCiuaHpZxO?utm_source=generator&theme=0&autoplay=1"
+                src="https://open.spotify.com/embed/playlist/4hvfoHE0beRXDCiuaHpZxO?utm_source=generator&theme=0"
                 width="100%"
                 height="352"
                 allowfullscreen=""
                 allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                 loading="lazy">
+            </iframe>
+        </div>
+    </div>
 
     <script>
         function createLightningBolt() {
